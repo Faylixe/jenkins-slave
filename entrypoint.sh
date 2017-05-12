@@ -8,8 +8,6 @@ if [ ! -f "/etc/ssh/ssh_host_dsa_key" ]; then
 	ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
 fi
 
-if [ ! -d "/var/run/sshd" ]; then
-  mkdir -p /var/run/sshd
-fi
-
+usermod -a -G $(stat -c '%g' /var/run/docker.sock) jenkins
+echo "Executing $@"
 exec "$@"
